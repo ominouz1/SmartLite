@@ -1,0 +1,158 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+  transition: background-color 0.3s ease;
+}
+
+.dark-mode body {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+.home-container {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%; 
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+@media (max-width: 600px) {
+  .home-container {
+    max-width: 400px;
+  }
+}
+
+@media (min-width: 600px) {
+  .home-container {
+    min-width: 450px;
+    min-height: 300px;
+  }
+}
+
+.dark-mode .home-container {
+  background-color: #333;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+h1 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+p {
+  margin: 1rem 0;
+}
+
+.toggle-button {
+  background-color: #2196f3;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  outline: none;
+}
+
+.toggle-button:hover {
+  background-color: #1976d2;
+}
+
+.dark-mode .toggle-button {
+  background-color: #64b5f6;
+}
+
+.dark-mode .toggle-button:hover {
+  background-color: #42a5f5;
+}
+
+.lights-status span.on {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.lights-status span.off {
+  color: #f44336;
+  font-weight: bold;
+}
+
+.people-count span {
+  font-weight: bold;
+}
+
+/* Mode toggle styles */
+.mode-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.image-container {
+  text-align: center;
+}
+
+.my-image {
+  width: 100%;
+  max-width: 60px;
+  height: auto;
+}
