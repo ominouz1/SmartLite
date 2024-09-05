@@ -25,7 +25,7 @@ const Home = () => {
     const fetchStatus = async () => {
       try {
         const data = await getStatus();
-        setPeopleCount(data.people_count);
+        // setPeopleCount(data.people_count);
         setLightsStatus(data.light_status);
       } catch (error) {
         console.error('Failed to fetch initial status:', error);
@@ -36,8 +36,9 @@ const Home = () => {
 
     // Set up socket listeners
     socket.on('status_update', (data) => {
-      setPeopleCount(data.people_count);
+      // setPeopleCount(data.people_count);
       setLightsStatus(data.light_status);
+      console.log('lightStatus: ', data.light_status);
     });
 
     return () => {
