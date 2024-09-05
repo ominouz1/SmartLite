@@ -4,8 +4,8 @@ import Header from '../components/Header';
 import ToggleSwitch from '../components/ToggleSwitch';
 import LightsStatus from '../components/LightsStatus';
 import PeopleCount from '../components/PeopleCount';
-import lightOn from '../assets/images/light-on.png'
-import lightOff from '../assets/images/light-off.png'
+import lightOn from '../assets/images/light-on.png';
+import lightOff from '../assets/images/light-off.png';
 import { getStatus, toggleLight } from '../services/api';
 
 const socket = io('http://127.0.0.1:5000');
@@ -32,16 +32,23 @@ const Home = () => {
       }
     };
 
+    // Fetch status immediately on mount
     fetchStatus();
+
+    // Set up interval to fetch status every 2 seconds
+    const intervalId = setInterval(fetchStatus, 2000);
 
     // Set up socket listeners
     socket.on('status_update', (data) => {
       setPeopleCount(data.people_count);
       setLightsStatus(data.light_status);
+      setMethod("Automatically")
       console.log('lightStatus: ', data.light_status);
     });
 
+    // Cleanup on unmount: clear interval and disconnect socket
     return () => {
+      clearInterval(intervalId);
       socket.disconnect();
     };
   }, []);

@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_socketio import SocketIO, emit
-from lighting import update_stack, set_light_manually, get_light_status
+from lighting import update_people_count, set_light_manually, get_light_status
 from flask_cors import CORS
 import threading
 import logging
@@ -25,7 +25,7 @@ def sensor_monitoring_wrapper():
     for event in monitor_sensors():
         is_entry = event.get('is_entry')
         with lock:
-            people_count = update_stack(is_entry)
+            people_count = update_people_count(is_entry)
             light_status = get_light_status()
         notify_clients()
 
