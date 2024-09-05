@@ -8,7 +8,7 @@ export const healthCheck = async () => {
 
 export const getStatus = async () => {
   try {
-    const response =  await axiosInstance.post('/status');
+    const response =  await axiosInstance.get('/status');
     return response.data;
   } catch (error) {
     console.error('Error fetching status:', error);

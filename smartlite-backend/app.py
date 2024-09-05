@@ -1,13 +1,14 @@
 from flask import Flask, jsonify, request
 from flask_socketio import SocketIO, emit
 from lighting import update_stack, set_light_manually, get_light_status
+from flask_cors import CORS
 import threading
 import logging
 from sensors import monitor_sensors
 
 app = Flask(__name__)
-socketio = SocketIO(app)
-
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+socketio = SocketIO(app, cors_allowed_origins="http://localhost:3000")  # Allow WebSocket connections from this origin
 # Initialize thread-safe variables
 lock = threading.Lock()
 light_status = False

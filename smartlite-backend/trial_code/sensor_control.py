@@ -1,7 +1,6 @@
 import RPi.GPIO as GPIO
 import time
 import threading
-from flask_socketio import SocketIO, emit
 
 # Setup GPIO pins
 TRIG = 23
@@ -16,9 +15,6 @@ GPIO.setup(LIGHT_PIN, GPIO.OUT)
 THRESHOLD_DISTANCE = 50  # Distance in cm to detect presence
 light_status = False  # Global variable to track the light status
 lock = threading.Lock()
-
-# Initialize socketio
-socketio = SocketIO()
 
 def get_distance():
     """Get the distance reading from the ultrasonic sensor."""
@@ -37,7 +33,7 @@ def get_distance():
     distance = pulse_duration * 17150  # Speed of sound is 34300 cm/s
     return round(distance, 2)
 
-def control_light():
+def control_light(socketio):
     """Monitor the distance and control the light automatically based on threshold."""
     global light_status
     while True:
@@ -83,4 +79,3 @@ def get_light_status():
 def cleanup_gpio():
     """Cleanup GPIO pins when exiting."""
     GPIO.cleanup()
-

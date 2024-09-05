@@ -1,15 +1,19 @@
+# app.py
+
 from flask import Flask, jsonify, request
 from flask_socketio import SocketIO, emit
+from flask_cors import CORS
 from sensor_control import control_light, manual_control, get_light_status, cleanup_gpio
 import threading
 import atexit
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
+socketio = SocketIO(app, cors_allowed_origins="http://localhost:3000")  # Allow WebSocket connections from this origin
 
 # Start the sensor monitoring in a separate thread
 def start_sensor_monitoring():
-    thread = threading.Thread(target=control_light)
+    thread = threading.Thread(target=control_light, args=(socketio,))
     thread.daemon = True
     thread.start()
 
