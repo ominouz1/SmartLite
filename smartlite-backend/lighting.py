@@ -8,6 +8,8 @@ LIGHT_PIN = 18
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(LIGHT_PIN, GPIO.OUT)
 
+is_manual = None
+
 light_status = False
 
 # Initialize an empty stack
@@ -31,13 +33,19 @@ def turn_off_light():
 def get_light_status():
     return light_status
 
+def get_method():
+    return is_manual
+
 def update_people_count(is_entry):
     global people_count
+    global is_manual
     if is_entry:
         people_count += 1
         logging.info(f"Person entered, people count: {people_count}")
-        if people_count == 1:  # Turn on the light when the first person enters
-            turn_on_light()
+        if people_count >= 1:  # Turn on the light when the first person enters
+            if not light_status:
+                turn_on_light()
+                is_manual = False
     else:
         if people_count > 0:
             people_count -= 1
@@ -47,10 +55,13 @@ def update_people_count(is_entry):
     return people_count
 
 def set_light_manually(status):
+    global is_manual
     if status:
         turn_on_light()
+        is_manual = True
     else:
         turn_off_light()
+        is_manual = True
     return get_light_status()
 
 # Cleanup GPIO on exit
