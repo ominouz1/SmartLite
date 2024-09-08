@@ -12,7 +12,7 @@ const socket = io('http://127.0.0.1:5000');
 
 const Home = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [method, setMethod] = useState("");
+  const [isManual, setIsManual] = useState("");
   const [lightsStatus, setLightsStatus] = useState(false);
   const [peopleCount, setPeopleCount] = useState(0);
 
@@ -27,6 +27,7 @@ const Home = () => {
         const data = await getStatus();
         setPeopleCount(data.people_count);
         setLightsStatus(data.light_status);
+        setIsManual(data.is_manual);
       } catch (error) {
         console.error('Failed to fetch initial status:', error);
       }
@@ -42,7 +43,6 @@ const Home = () => {
     socket.on('status_update', (data) => {
       setPeopleCount(data.people_count);
       setLightsStatus(data.light_status);
-      setMethod("Automatically")
       console.log('lightStatus: ', data.light_status);
     });
 
@@ -57,7 +57,7 @@ const Home = () => {
     try {
       const data = await toggleLight({ light_status: !lightsStatus });
       setLightsStatus(data.light_status);
-      setMethod("Manually");
+      setIsManual(data.is_manual)
     } catch (error) {
       console.error('Failed to toggle light:', error);
     }
@@ -75,7 +75,7 @@ const Home = () => {
         {lightsStatus ? 'Turn Off Lights' : 'Turn On Lights'}
       </button>
       <PeopleCount count={peopleCount} />
-      <p>Method: {method}</p>
+      <p>Method: {isManual ? "Manually" : "Automatically"}</p>
     </div>
   );
 };
